@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday, My Love 🎂💖</title>
+  <meta name="description" content="A tiny, cute birthday surprise on the web – with hearts, confetti, and a love note." />
+  <meta property="og:title" content="A Birthday Surprise for You 💕" />
+  <meta property="og:description" content="Open me!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1545134969-8debd725b007?w=1200" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1: #ffe6f2; /* blush */
+      --bg2: #e8f0ff; /* baby blue */
+      --accent: #ff5aa5; /* pink */
+      --accent-2: #7c4dff; /* lilac */
+      --ink: #2a2a2a; /* text */
+      --card: #ffffff;
+      --shadow: 0 20px 50px rgba(0,0,0,.08);
+    }
+
+    * { box-sizing: border-box }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--ink);
+      background: radial-gradient(1200px 800px at 10% 10%, var(--bg2), transparent),
+                  radial-gradient(1200px 800px at 90% 10%, #fff4f9, transparent),
+                  linear-gradient(180deg, var(--bg1), #fff);
+      overflow-x: hidden;
+    }
+
+    /* Floating hearts background */
+    .hearts {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .25;
+    }
+    .heart { position:absolute; width:18px; aspect-ratio:1; rotate:45deg; background:var(--accent); filter: drop-shadow(0 8px 16px rgba(255,90,165,.25)); }
+    .heart::before, .heart::after{ content:""; position:absolute; width:100%; height:100%; background:inherit; border-radius:50%; }
+    .heart::before { left:-50%; }
+    .heart::after  { top:-50%; }
+
+    /* Layout */
+    .wrap {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      z-index: 1;
+    }
+
+    .card {
+      width: min(920px, 100%);
+      background: var(--card);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1px solid rgba(124, 77, 255, .12);
+      position: relative;
+      isolation: isolate;
+    }
+
+    .top {
+      padding: clamp(24px, 4vw, 48px);
+      background: conic-gradient(from 180deg at 50% 0%, rgba(255,90,165,.15), rgba(124,77,255,.15), rgba(255,90,165,.15));
+    }
+
+    .title {
+      font-family: "Pacifico", cursive;
+      font-size: clamp(32px, 7vw, 64px);
+      line-height: 1.1;
+      margin: 0 0 6px 0;
+      text-wrap: balance;
+      letter-spacing: .5px;
+    }
+
+    .subtitle {
+      margin: 0 0 8px 0;
+      font-weight: 600;
+      font-size: clamp(16px, 2.8vw, 22px);
+      color: #5b4f6b;
+    }
+
+    .date { font-size: 14px; opacity: .7; }
+
+    .photo {
+      width: 100%;
+      aspect-ratio: 16/7;
+      object-fit: cover;
+      display: block;
+      outline: 0;
+    }
+
+    .content { padding: clamp(20px, 4vw, 40px); }
+
+    .note {
+      font-size: clamp(16px, 2.5vw, 19px);
+      line-height: 1.7;
+      margin: 0 0 20px 0;
+      text-wrap: pretty;
+    }
+
+    .badges { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 8px; }
+    .badge {
+      background: rgba(255, 90, 165, .12);
+      border: 1px solid rgba(255, 90, 165, .3);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .2px;
+    }
+
+    .btns { display:flex; gap:12px; flex-wrap: wrap; }
+    .btn {
+      appearance: none; border:0; cursor:pointer; user-select:none; text-decoration:none;
+      padding: 14px 18px; border-radius: 14px; font-weight: 700; letter-spacing: .3px;
+      transition: transform .08s ease, box-shadow .2s ease, outline-color .2s ease;
+    }
+    .btn-primary {
+      color:#fff; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 16px 24px rgba(255,90,165,.25);
+    }
+    .btn-ghost { background: #f6f1ff; color:#5b4f6b; border:1px solid rgba(124,77,255,.22); }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:focus-visible { outline: 3px solid rgba(124,77,255,.45); outline-offset:2px; }
+
+    /* Footer */
+    footer { text-align:center; font-size: 12px; opacity:.7; padding: 18px; }
+    footer a { color: #6b5bd5; font-weight: 600; }
+
+    /* Floating balloons */
+    .balloon { position:absolute; right: -30px; bottom: -10px; width: 120px; opacity: .85; filter: drop-shadow(0 8px 14px rgba(0,0,0,.12)); animation: float 6s ease-in-out infinite; }
+    .balloon:nth-child(2) { right: 60px; animation-duration: 7s; }
+    .balloon:nth-child(3) { right: 140px; animation-duration: 8s; }
+    @keyframes float { 0% { transform: translateY(6px) } 50% { transform: translateY(-10px) } 100% { transform: translateY(6px) } }
+
+    /* Accessibility helpers */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+
+    /* Small screens */
+    @media (max-width: 520px) {
+      .photo { aspect-ratio: 3/2; }
+    }
+    .modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 20px;
+  object-fit: cover;   /* crops the image nicely */
+  display: block;
+  margin: auto;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.buttons button {
+  background: #ffe6f0;
+  border: 2px solid #ff99cc;
+  border-radius: 25px;
+  padding: 12px 20px;
+  margin: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(255, 153, 204, 0.3);
+}
+
+.buttons button:hover {
+  background: #ffb3d9;
+  transform: scale(1.1);
+  box-shadow: 0 6px 10px rgba(255, 105, 180, 0.4);
+}
+
+.buttons button:active {
+  transform: scale(0.95);
+}
+  </style>
+</head>
+<script>
+function showImage(src) {
+  var modal = document.getElementById("imageModal");
+  var modalImg = document.getElementById("modalImage");
+  modal.style.display = "block";
+  modalImg.src = src;
+}
+
+function closeModal() {
+  document.getElementById("imageModal").style.display = "none";
+}
+</script>
+<body>
+  <!-- Config (edit just these values!) -->
+  <script>
+    const CONFIG = {
+      recipientName: "Princess", // ← her name
+      senderName: "— From Mohith",
+      date: new Date().toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric'}),
+      coverImage: "C:/PP/WhatsApp Image 2025-08-21 at 14.10.30_4e930d46.jpg", // replace with your own photo URL
+      autoplayMusic: false,
+      music: "C:/PP/Break Free When Chai Met Toast 128 Kbps.mp3", // optional: put a direct .mp3 URL here    
+      loveNote: `Happy Birthday, my sunshine!\n\nEvery day with you is a little softer, a little brighter, and a lot more magical.\nThank you for your laugh, your patience, and the way you make the ordinary feel like confetti.\nI am so proud of you and so lucky to love you.\n\nWishing you a year full of cozy mornings, silly selfies, spontaneous desserts, and dreams that actually come true.\n\nI adore you. Always. 💖`,
+      marqueeWords: ["sweetest", "smartest", "cutest", "kindest", "my favorite human"],
+      wishButtonsText: ["Play Confetti ✨", "Open A Surprise 💌"]
+    }
+  </script>
+
+  <!-- Decorative floating hearts -->
+  <div class="hearts" aria-hidden="true" id="hearts"></div>
+
+  <main class="wrap">
+    <article class="card" role="article" aria-labelledby="hdr">
+      <div class="top">
+        <h1 id="hdr" class="title">Happy Birthday, <span id="name">My Love</span>! ✨</h1>
+        <p class="subtitle" id="marquee" aria-live="polite">You are my favorite human.</p>
+        <p class="date" id="date"></p>
+      </div>
+
+      <img class="photo" id="cover" alt="A cute, dreamy photo chosen for you" />
+
+      <div class="content">
+        <p class="note" id="note"></p>
+
+        <div class="buttons">
+  <button onclick="showImage('images/WhatsApp Image 2025-08-21 at 14.51.51_29357c12.jpg')">💗 your smile</button>
+  <button onclick="showImage('images/WhatsApp Image 2025-08-21 at 15.24.12_0bf5a9c4.jpg')">🍰 dessert buddy</button>
+  <button onclick="showImage('images/karaoke.jpg')">🎧 car karaoke</button>
+  <button onclick="showImage('images/selfie.jpg')">📸 cute selfies</button>
+  <button onclick="showImage('images/talks.jpg')">🌙 late-night talks</button>
+</div>
+
+      <!-- The Modal -->
+      <div id="imageModal" class="modal">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <img class="modal-content" id="modalImage">
+      </div>
+        <div class="btns">
+          <button class="btn btn-primary" id="confettiBtn">Play Confetti ✨</button>
+          <button class="btn btn-ghost" id="surpriseBtn">Open A Surprise 💌</button>
+        </div>
+      </div>
+
+      <!-- Balloons (decorative) -->
+      <img class="balloon" src="https://raw.githubusercontent.com/encharm/Font-Awesome-SVG-PNG/master/black/png/64/balloon.png" alt="" aria-hidden="true" />
+      <img class="balloon" src="https://raw.githubusercontent.com/encharm/Font-Awesome-SVG-PNG/master/black/png/64/balloon.png" alt="" aria-hidden="true" />
+      <img class="balloon" src="https://raw.githubusercontent.com/encharm/Font-Awesome-SVG-PNG/master/black/png/64/balloon.png" alt="" aria-hidden="true" />
+    </article>
+
+    <footer>
+      <span id="from"></span>
+      <div class="sr-only" id="a11y-summary">This page contains decorative animations. All main information is present as text. Buttons: Play Confetti and Open A Surprise.</div>
+    </footer>
+  </main>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti" class="sr-only" aria-hidden="true"></canvas>
+
+  <!-- Surprise Modal -->
+  <dialog id="modal" aria-label="Birthday surprise">
+    <form method="dialog" style="margin:0">
+      <div style="padding:22px 22px 16px; max-width:520px">
+        <h2 style="margin:0 0 8px;font-family:Pacifico,cursive;font-size:28px">A tiny wish for you 🎁</h2>
+        <p style="margin:0 0 12px; line-height:1.7">May your day be soft and sparkly, your tea perfectly sweet, and your heart extremely full. Here’s to more adventures with me, obviously. 😌💘</p>
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:10px">
+          <button class="btn btn-ghost" value="close">Aww, thanks 🥹</button>
+          <button class="btn btn-primary" id="moreConfetti">More confetti! ✨</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    // ——— Accessibility & content setup ———
+    const $ = (q) => document.querySelector(q);
+    $('#name').textContent = CONFIG.recipientName;
+    $('#marquee').textContent = `You are the ${CONFIG.marqueeWords[0]}.`;
+    $('#date').textContent = CONFIG.date;
+    $('#cover').src = CONFIG.coverImage;
+    $('#note').textContent = CONFIG.loveNote;
+    $('#from').textContent = CONFIG.senderName;
+
+    // Simple marquee rotator
+    let i = 0;
+    setInterval(() => {
+      i = (i + 1) % CONFIG.marqueeWords.length;
+      $('#marquee').textContent = `You are the ${CONFIG.marqueeWords[i]}.`;
+    }, 2200);
+
+    // Hearts background generator
+    const hearts = $('#hearts');
+    for (let h = 0; h < 24; h++) {
+      const el = document.createElement('div');
+      el.className = 'heart';
+      const x = Math.random() * 100;
+      const y = Math.random() * 100;
+      const s = 0.6 + Math.random() * 1.3;
+      const d = 6 + Math.random() * 14;
+      el.style.left = x + 'vw';
+      el.style.top = y + 'vh';
+      el.style.transform = `scale(${s})`;
+      el.style.animation = `float ${d}s ease-in-out ${Math.random()*5}s infinite`;
+      hearts.appendChild(el);
+    }
+
+    // ——— Confetti ———
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let confettiPieces = [];
+
+    function sizeCanvas() {
+      canvas.width = innerWidth; canvas.height = innerHeight;
+    }
+    sizeCanvas();
+    addEventListener('resize', sizeCanvas);
+
+    function makePiece() {
+      const colors = ['#ff5aa5','#7c4dff','#ffd166','#06d6a0','#118ab2'];
+      return {
+        x: Math.random()*canvas.width,
+        y: -10,
+        w: 8+Math.random()*8,
+        h: 8+Math.random()*8,
+        r: Math.random()*Math.PI,
+        s: 2+Math.random()*3,
+        color: colors[Math.floor(Math.random()*colors.length)]
+      }
+    }
+
+    function burst(amount=120) {
+      for (let i = 0; i < amount; i++) confettiPieces.push(makePiece());
+      canvas.classList.remove('sr-only');
+      setTimeout(()=> canvas.classList.add('sr-only'), 1800);
+    }
+
+    function tick() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      confettiPieces = confettiPieces.filter(p => p.y < canvas.height + 20);
+      confettiPieces.forEach(p => {
+        p.y += p.s;
+        p.x += Math.sin(p.y/15);
+        p.r += 0.06;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+        ctx.restore();
+      });
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // Buttons
+    const confettiBtn = document.getElementById('confettiBtn');
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const modal = document.getElementById('modal');
+
+    confettiBtn.addEventListener('click', () => burst(200));
+    surpriseBtn.addEventListener('click', () => { modal.showModal(); burst(140); });
+    document.getElementById('moreConfetti').addEventListener('click', (e) => { e.preventDefault(); burst(240); });
+
+    // Optional music
+    if (CONFIG.music) {
+      const audio = new Audio(CONFIG.music);
+      audio.preload = 'auto';
+      if (CONFIG.autoplayMusic) {
+        document.addEventListener('click', ()=> audio.play(), { once:true });
+      }
+      // Add a tiny toggle
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-ghost';
+      btn.style.position='fixed'; btn.style.left='16px'; btn.style.bottom='16px';
+      btn.ariaLabel = 'Toggle music';
+      let playing = false;
+      btn.textContent = 'Play song ♫';
+      btn.addEventListener('click', async ()=> {
+        try { playing ? await audio.pause() : await audio.play(); } catch {}
+        playing = !playing; btn.textContent = playing ? 'Pause song ⏸' : 'Play song ♫';
+      });
+      document.body.appendChild(btn);
+    }
+
+    // Focus styles for dialog close
+    modal.addEventListener('close', ()=> confettiBtn.focus());
+  </script>
+</body>
+<canvas id="confetti"></canvas>
+</html>
